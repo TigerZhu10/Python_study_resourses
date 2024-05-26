@@ -135,6 +135,9 @@ my_dog.roll_over()
 5. self.name = name : self 的 name = name 
 '''
 
+age = 13
+print(f"my age is {age}")
+
 
 
 
