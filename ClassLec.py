@@ -25,6 +25,33 @@ print(my_dog.age)
 
 my_dog.bark()
 
+#Example:
+class Car:
+    def __init__(self):
+        self.speed = 0
+
+    def accelerate(self):
+        self.speed +=5
+
+    def brake(self):
+        if self.speed >= 5:
+            self.speed -= 5
+        else:
+            self.speed = 0
+
+    def get_speed(self):
+        return self.speed
+    
+my_car = Car()
+
+print("Initial speed:", my_car.get_speed())
+
+my_car.accelerate()
+print("speed after acceleration:", my_car.get_speed())
+
+my_car.brake()
+print("speed after braking:", my_car.get_speed())
+
 
 
 '''
