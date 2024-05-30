@@ -15,15 +15,27 @@ class Dog:
 my_dog = Dog("Buddy", 3)
 your_dog = Dog("Annie", 5)
 
+#调用attributes:
 print(your_dog.name)
 print(your_dog.age)
-
-your_dog.bark()
-
 print(my_dog.name)
 print(my_dog.age)
 
+#调用method:
+your_dog.bark()
 my_dog.bark()
+
+'''
+#! def = initializer(初始化器)
+#? name and age = Attributes(属性)
+## my_dog = object
+
+#note self 和 __init__一定要写  
+def __init__(self, a, b):
+    self.a = a
+    self.b = b   
+'''
+
 
 #Example:
 class Car:
@@ -52,18 +64,33 @@ print("speed after acceleration:", my_car.get_speed())
 my_car.brake()
 print("speed after braking:", my_car.get_speed())
 
-
-
-'''
-
-#! def = initializer(初始化器)
-#? name and age = Attributes(属性)
-## my_dog = object
-
-#note self 和 __init__一定要写  
-def __init__(self, a, b):
-    self.a = a
-    self.b = b
-
+class BankAccount:
+    def __init__(self, money):
+        self.money = money
     
+    def deposit(self, dollar):
+        self.money += dollar  
+        print(self.money)
+    
+    def withdraw(self, dollar):
+        if dollar <= self.money:
+            self.money -= dollar
+        print(self.money)
+
+    def check_balance(self):
+        print(self.money)
+    
+money = BankAccount()
+
+money.deposit(100)
+money.withdraw(99)
+money.check_balance()
+
 '''
+
+'''
+
+                
+        
+        
+
