@@ -80,15 +80,59 @@ class BankAccount:
     def check_balance(self):
         print(self.money)
     
-money = BankAccount()
+money = BankAccount(0)
 
 money.deposit(100)
 money.withdraw(99)
 money.check_balance()
 
-'''
 
-'''
+
+#* Parent class:
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        raise NotImplementedError("Subclass must implement abstract method")
+
+# Child class Dog
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name)
+        self.breed = breed
+
+    def speak(self):
+        return f"{self.name} the {self.breed} says Woof!"
+
+
+class Cat(Animal):
+    def __init__(self, name, color):
+        super().__init__(name)
+        self.color = color
+
+    def speak(self):
+        return f"{self.name} the {self.color} cat says Meow!"
+
+
+class Bird(Animal):
+    def __init__(self, name, species):
+        super().__init__(name)
+        self.species = species
+
+    def speak(self):
+        return f"{self.name} the {self.species} bird says Tweet!"
+
+
+dog = Dog("Buddy", "Golden Retriever")
+cat = Cat("Whiskers", "black")
+bird = Bird("Tweety", "canary")
+
+
+print(dog.speak())  
+print(cat.speak())
+print(bird.speak())
+
 
                 
         
