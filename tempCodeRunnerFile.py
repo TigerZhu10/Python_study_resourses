@@ -1,1 +1,1 @@
- self.age = age
+super().__init__()

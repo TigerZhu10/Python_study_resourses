@@ -14,7 +14,7 @@ class Monster(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
         self.image = pygame.image.load("blue_monster.png")
-        self.image = pygame.image.get_rect()
+        self.rect = self.image.get_rect()
         self.rect.topleft = (x,y)
         self.velocity = random.randint(1,10)
 
@@ -26,3 +26,18 @@ for i in range(10):
     monster = Monster(i*64, 10)
     monster_group.add(monster)
 
+game_running = True
+while game_running:
+    for ev in pygame.event.get():
+        if ev.type == pygame.QUIT:
+            game_running = False
+
+    display_surface.fill((0,0,0))
+
+    monster_group.update()
+    monster_group.draw(display_surface)
+
+    pygame.display.update()
+    clock.tick(FPS)
+
+pygame.quit
