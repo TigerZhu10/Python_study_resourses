@@ -19,7 +19,7 @@ class Game():
         self.check_collisions()
 
     def check_collisions(self):
-        pygame.sprite.groupcollide(self.monster_group, self.knight_group, True, False)
+        pygame.sprite.groupcollide(self.monster_group, self.knight_group, True , False)
 
 class Knight(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -69,6 +69,8 @@ while game_running:
 
     my_knight_group.update()
     my_knight_group.draw(display_surface)
+
+    my_game.update()
 
     pygame.display.update()
     clock.tick(FPS)
