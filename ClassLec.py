@@ -5,7 +5,7 @@ class Dog:
         self.name = name
         self.age = age
 
-    #method(方式，方法)
+    #method(方式，方法) 
     def bark(self):
         print(f"{self.name} says Woof!\n")
     

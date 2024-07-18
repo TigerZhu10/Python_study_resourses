@@ -25,7 +25,7 @@ class Player(pygame.sprite.Sprite):
         self.move()
         self.check_collisions()
 
-    def move(self):
+    def move(self):  
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT]:
