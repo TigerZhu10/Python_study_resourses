@@ -24,11 +24,15 @@ class BankAccount:
         else:
             return("You are poor")
 
-    def transfer(self):
-        pass
+    def transfer(self, cash, target_account):
+        target_account.balance += cash
 
 Tiger_account = BankAccount()
+Alex_account = BankAccount()
+
 Tiger_account.deposit(500)
 print(Tiger_account.check_balance())
 Tiger_account.withdraw(200)
 print(Tiger_account.check_balance())
+Tiger_account.transfer(100, Alex_account)
+
