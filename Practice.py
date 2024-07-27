@@ -26,6 +26,11 @@ class BankAccount:
 
     def transfer(self, cash, target_account):
         target_account.balance += cash
+        if target_account.balance > 0:
+            target_account.check_money = True
+        self.withdraw(cash)
+
+        
 
 Tiger_account = BankAccount()
 Alex_account = BankAccount()
@@ -35,4 +40,8 @@ print(Tiger_account.check_balance())
 Tiger_account.withdraw(200)
 print(Tiger_account.check_balance())
 Tiger_account.transfer(100, Alex_account)
+print(Alex_account.check_balance())
+
+
+
 
