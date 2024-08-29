@@ -8,7 +8,6 @@ class BankAccount:
         if self.balance > 0:
             self.balance_is_enough = True
 
-
     def withdraw(self, amount):
         #? 如果要取的钱 小于 余额 执行当前if 
         if amount < self.balance:

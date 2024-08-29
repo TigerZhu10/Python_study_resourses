@@ -10,7 +10,7 @@ class Dog(Animal):
         super().__init__(name)
 
     def speak(self):
-        print(f"{self.name} says skibidi toilet")
+        print(f"{self.name} says woof")
         
 #* child class_2(without init)
 class Cat(Animal):
@@ -18,7 +18,7 @@ class Cat(Animal):
         print(f"{self.name} says meow")
 
 dog = Dog("Buddy")
-my_cat = Cat("skibidi ohoi")
+my_cat = Cat("Jacky")
 
 print(dog.name)
 dog.speak()

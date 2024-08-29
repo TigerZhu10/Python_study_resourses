@@ -1,5 +1,4 @@
 
-
 class Dog: 
     def __init__(self, name, age):
         self.name = name
@@ -85,13 +84,3 @@ money = BankAccount(0)
 money.deposit(100)
 money.withdraw(99)
 money.check_balance()
-
-
-
-
-
-
-                
-        
-        
-
