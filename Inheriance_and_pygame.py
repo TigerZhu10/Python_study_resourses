@@ -36,6 +36,7 @@ while game_running:
 
     monster_group.update()
     monster_group.draw(display_surface)
+    
 
     pygame.display.update()
     clock.tick(FPS)
