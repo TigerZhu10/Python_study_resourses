@@ -19,7 +19,7 @@ class Game():
         self.check_collisions()
 
     def check_collisions(self):
-        pygame.sprite.groupcollide(self.monster_group, self.knight_group, True , False)
+        pygame.sprite.groupcollide(self.monster_group, self.knight_group, False , True)
 
 class Knight(pygame.sprite.Sprite):
     def __init__(self, x, y):
