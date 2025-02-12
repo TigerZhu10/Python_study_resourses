@@ -1,0 +1,3 @@
+this is content_3 
+
+{ weight}
