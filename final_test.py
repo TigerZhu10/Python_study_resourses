@@ -42,7 +42,7 @@ class Monster(pygame.sprite.Sprite):
         self.velocity = random.randint(1,10)
 
     def update(self):
-         self.rect.y += self.velocity 
+        self.rect.y += self.velocity 
 
 monster_group = pygame.sprite.Group()
 for i in range(10):
