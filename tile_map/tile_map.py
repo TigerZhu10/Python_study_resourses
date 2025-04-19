@@ -57,7 +57,6 @@ while game_running:
             game_running = False
 
     screen.blit(bg_image, (0, 0))
-    screen.blit(bg_image, (0, 0))
 
     draw_tilemap()
 

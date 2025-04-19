@@ -21,7 +21,9 @@ for n in num_4:
 
 print("-------------------------------")
 num_5 = [[7,11,3,4], 
-        [2,6,5,9]]
+        [2,6,5,9],
+        [1,8,2,10]]
+
 for row, n in enumerate(num_5):
     for column, j in enumerate(n):
         print(f"row{row}, column{column}:{j}")
