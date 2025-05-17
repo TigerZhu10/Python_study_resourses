@@ -32,40 +32,61 @@ class Tile(pygame.sprite.Sprite):
             self.image = dirt_img  # 泥土
         elif tile_type == 2:
             self.image = grass_img  # 草地
-            # special_group.add(self)  # 加入特殊组（grass_tiles）
+            special_group.add(self)  # 加入特殊组（grass_tiles）
         elif tile_type == 3:
             self.image = water_img  # 水
-            # special_group.add(self)  # 加入特殊组（water_tiles）
+            special_group.add(self)  # 加入特殊组（water_tiles）
 
         self.rect = self.image.get_rect(topleft=(x, y))  # 设置瓦片位置
         all_tiles.add(self)  # 把这个 tile 加入总瓦片组中
 
-# 定义玩家类，继承自 Sprite
+# 玩家类
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y):
-        super().__init__()  # 初始化父类
-        self.image = knight_img  # 使用骑士图像
-        self.rect = self.image.get_rect(bottomleft=(x, y))  # 设置初始位置（角色脚落点）
+    def __init__(self, x, y, all_tiles):
+        super().__init__()
+        self.image = knight_img
+        self.rect = self.image.get_rect(bottomleft=(x, y))
+        self.all_tiles = all_tiles
 
-        self.position = vector(x, y)  # 玩家当前位置（向量）
-        self.velocity = vector(0, 0)  # 初始速度为 0
-        self.acceleration = vector(0, 0)  # 初始加速度为 0
+        self.position = vector(x, y)
+        self.velocity = vector(0, 0)
+        self.acceleration = vector(0, 0)
 
-        self.HORIZONTAL_ACCELERATION = 2  # 水平方向加速度大小
-        self.HORIZONTAL_FRICTION = 0.25  # 水平方向摩擦力
+        self.HORIZONTAL_ACCELERATION = 2
+        self.HORIZONTAL_FRICTION = 0.15
+        self.GRAVITY = 0.5
+        self.on_ground = False  # 增加状态标志，表示是否站在地面上
 
     def update(self):
-        self.acceleration = vector(0, 0)  # 每次更新先重置加速度
-        keys = pygame.key.get_pressed()  # 获取当前按键状态
-        if keys[pygame.K_LEFT]:  # 如果按左键
-            self.acceleration.x = (-self.HORIZONTAL_ACCELERATION)  # 加速度设为负值
-        if keys[pygame.K_RIGHT]:  # 如果按右键
-            self.acceleration.x =+ self.HORIZONTAL_ACCELERATION  # 加速度为正值
+        self.acceleration = vector(0, self.GRAVITY)  # 添加重力影响
 
-        self.acceleration.x -= self.velocity.x * self.HORIZONTAL_FRICTION  # 应用摩擦力：越快摩擦越大
-        self.velocity += self.acceleration  # 更新速度 = 原速度 + 加速度
-        self.position += self.velocity + 0.5 * self.acceleration  # 更新位置（用经典加速度公式）
-        self.rect.bottomleft = self.position  # 更新角色位置
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            self.acceleration.x = -self.HORIZONTAL_ACCELERATION
+        if keys[pygame.K_RIGHT]:
+            self.acceleration.x = self.HORIZONTAL_ACCELERATION
+
+        self.acceleration.x -= self.velocity.x * self.HORIZONTAL_FRICTION
+
+        self.velocity += self.acceleration
+        self.position += self.velocity + 0.5 * self.acceleration
+        self.rect.bottomleft = self.position
+
+        # ------------------ 碰撞检测（垂直方向） ------------------
+        self.on_ground = False  # 每帧默认在空中
+
+        for tile in self.all_tiles:
+            if self.rect.colliderect(tile.rect):
+                # 获取 tile 类型：通过 tile.image 来判断是哪一类图块
+                if tile.image == water_img:
+                    continue  # 如果是水，就不阻止下落，直接穿过去
+
+                # 玩家是从上往下撞到 tile（说明是落地）
+                if self.velocity.y > 0 and self.rect.bottom <= tile.rect.bottom:
+                    self.rect.bottom = tile.rect.top  # 对齐地面
+                    self.position.y = self.rect.bottom
+                    self.velocity.y = 0
+                    self.on_ground = True  # 标记为着地
 
 # 创建所有精灵组
 all_tiles = pygame.sprite.Group()  # 所有 tile 的组
@@ -77,7 +98,7 @@ player_group = pygame.sprite.Group()  # 玩家组（这里只有一个玩家）
 # 地图有 20 行，30 列（对应窗口大小 / TILE_SIZE = 640/32 行, 960/32 列）
 tile_map = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2],
     [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -87,7 +108,7 @@ tile_map = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2],
     [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -109,7 +130,7 @@ for i, row in enumerate(tile_map):  # i 表示行号（纵向），row 是一整
         elif value == 3:
             Tile(x, y, 3, all_tiles, water_tiles)  # 创建水 tile
         elif value == 4:
-            player = Player(x, y + TILE_SIZE)  # 创建玩家（注意位置偏移一格）
+            player = Player(x, y + TILE_SIZE, all_tiles)  # 创建玩家（注意位置偏移一格）
             player_group.add(player)  # 添加到玩家组
 
 # 主游戏循环

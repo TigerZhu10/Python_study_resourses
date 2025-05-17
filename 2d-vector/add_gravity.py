@@ -32,40 +32,45 @@ class Tile(pygame.sprite.Sprite):
             self.image = dirt_img  # 泥土
         elif tile_type == 2:
             self.image = grass_img  # 草地
-            # special_group.add(self)  # 加入特殊组（grass_tiles）
+            special_group.add(self)  # 加入特殊组（grass_tiles）
         elif tile_type == 3:
             self.image = water_img  # 水
-            # special_group.add(self)  # 加入特殊组（water_tiles）
+            special_group.add(self)  # 加入特殊组（water_tiles）
 
         self.rect = self.image.get_rect(topleft=(x, y))  # 设置瓦片位置
         all_tiles.add(self)  # 把这个 tile 加入总瓦片组中
 
-# 定义玩家类，继承自 Sprite
+# 玩家类
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
-        super().__init__()  # 初始化父类
+        super().__init__()
         self.image = knight_img  # 使用骑士图像
         self.rect = self.image.get_rect(bottomleft=(x, y))  # 设置初始位置（角色脚落点）
 
-        self.position = vector(x, y)  # 玩家当前位置（向量）
-        self.velocity = vector(0, 0)  # 初始速度为 0
-        self.acceleration = vector(0, 0)  # 初始加速度为 0
+        self.position = vector(x, y)  # 玩家当前位置
+        self.velocity = vector(0, 0)  # 当前速度
+        self.acceleration = vector(0, 0)  # 当前加速度
 
-        self.HORIZONTAL_ACCELERATION = 2  # 水平方向加速度大小
-        self.HORIZONTAL_FRICTION = 0.25  # 水平方向摩擦力
+        self.HORIZONTAL_ACCELERATION = 2  # 左右加速度
+        self.HORIZONTAL_FRICTION = 0.15  # 摩擦力
+        self.GRAVITY = 0.05  # 添加重力常数，每帧垂直方向都会下落这么多像素
 
     def update(self):
-        self.acceleration = vector(0, 0)  # 每次更新先重置加速度
-        keys = pygame.key.get_pressed()  # 获取当前按键状态
-        if keys[pygame.K_LEFT]:  # 如果按左键
-            self.acceleration.x = (-self.HORIZONTAL_ACCELERATION)  # 加速度设为负值
-        if keys[pygame.K_RIGHT]:  # 如果按右键
-            self.acceleration.x =+ self.HORIZONTAL_ACCELERATION  # 加速度为正值
+        self.acceleration = vector(0, self.GRAVITY)  
+        # 每次更新先设置重力加速度在 y 方向（垂直方向）
 
-        self.acceleration.x -= self.velocity.x * self.HORIZONTAL_FRICTION  # 应用摩擦力：越快摩擦越大
-        self.velocity += self.acceleration  # 更新速度 = 原速度 + 加速度
-        self.position += self.velocity + 0.5 * self.acceleration  # 更新位置（用经典加速度公式）
-        self.rect.bottomleft = self.position  # 更新角色位置
+        keys = pygame.key.get_pressed()  # 获取当前键盘按键状态
+        if keys[pygame.K_LEFT]:  # 如果按左箭头
+            self.acceleration.x = -self.HORIZONTAL_ACCELERATION
+        if keys[pygame.K_RIGHT]:  # 如果按右箭头
+            self.acceleration.x = self.HORIZONTAL_ACCELERATION
+
+        self.acceleration.x -= self.velocity.x * self.HORIZONTAL_FRICTION  
+        # 水平摩擦力：随着速度越快，摩擦越大（阻力）
+
+        self.velocity += self.acceleration  # 更新速度
+        self.position += self.velocity + 0.5 * self.acceleration  # 更新位置
+        self.rect.bottomleft = self.position  # 设置图像位置
 
 # 创建所有精灵组
 all_tiles = pygame.sprite.Group()  # 所有 tile 的组
