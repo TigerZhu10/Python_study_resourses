@@ -23,12 +23,12 @@ class Tile(pygame.sprite.Sprite):
         super().__init__()
         #Load in the correct image and add it to the correct sub groups
         if image_int == 1:
-            self.image = pygame.image.load("./advanced_py/assets/dirt.png")
+            self.image = pygame.image.load("./2d-vector/dirt.png")
         elif image_int == 2:
-            self.image = pygame.image.load("./advanced_py/assets/grass.png")
+            self.image = pygame.image.load("./2d-vector/grass.png")
             sub_group.add(self)
         elif image_int == 3:
-            self.image = pygame.image.load("./advanced_py/assets/water.png")
+            self.image = pygame.image.load("./2d-vector/water.png")
             sub_group.add(self)
         
         #Add every tile to the main tile group
@@ -46,10 +46,10 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
 
         # --- 动画帧列表 ---
-        self.move_right_sprites = self.load_images("./advanced_py/assets/boy", "Run", 8)    # 向右跑步帧
+        self.move_right_sprites = self.load_images("./animation/boys", "Run", 8)    # 向右跑步帧
         self.move_left_sprites = [pygame.transform.flip(s, True, False) for s in self.move_right_sprites]  # 向左跑步帧（翻转）
 
-        self.idle_right_sprites = self.load_images("./advanced_py/assets/boy", "Idle", 8)   # 向右待机帧
+        self.idle_right_sprites = self.load_images("./animation/boys", "Idle", 8)   # 向右待机帧
         self.idle_left_sprites = [pygame.transform.flip(s, True, False) for s in self.idle_right_sprites]  # 向左待机帧（翻转）
 
         # --- 初始图像与位置 ---
@@ -88,7 +88,8 @@ class Player(pygame.sprite.Sprite):
         return [
             pygame.transform.scale(
                 pygame.image.load(f"{folder}/{prefix} ({i}).png"), (64, 64)
-            ) for i in range(1, count + 1)
+            ) 
+            for i in range(1, count + 1)
         ]
 
     def update(self):
@@ -205,7 +206,7 @@ for i in range(len(tile_map)):
             my_player_group.add(my_player)
 
 #Load in a background image
-background_image = pygame.image.load("./advanced_py/assets/background.png")
+background_image = pygame.image.load("./2d-vector/background.png")
 background_rect = background_image.get_rect()
 background_rect.topleft = (0, 0)
 
