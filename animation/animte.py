@@ -153,7 +153,7 @@ class Player(pygame.sprite.Sprite):
         """
         播放指定动画帧列表
         sprite_list: 图像帧序列
-        speed: 帧切换速度（建议 0.1 ~ 0.3）
+        speed: 帧切换速度（建议 0.1 ~ 0.3)
         """
         self.current_sprite = (self.current_sprite + speed) % len(sprite_list)
         self.image = sprite_list[int(self.current_sprite)]
