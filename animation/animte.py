@@ -101,6 +101,8 @@ class Player(pygame.sprite.Sprite):
         self.acceleration = vector(0, self.VERTICAL_ACCLERATION)
 
         keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+                self.jump()
         if keys[pygame.K_LEFT]:
             self.acceleration.x = -self.HORIZONTAL_ACCELERATION
             self.facing_right = False
@@ -218,9 +220,6 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         #Player wants to jump
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                my_player.jump()
 
     #Blit the background
     display_surface.blit(background_image, background_rect)
@@ -233,7 +232,7 @@ while running:
     my_player_group.draw(display_surface)
 
     #Update display and tick clock
-    pygame.display.update()
+    pygame.display.update(background_rect)
     clock.tick(FPS)
 
 #End the game
