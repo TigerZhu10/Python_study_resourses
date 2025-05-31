@@ -89,7 +89,7 @@ class Player(pygame.sprite.Sprite):
             pygame.transform.scale(
                 pygame.image.load(f"{folder}/{prefix} ({i}).png"), (64, 64)
             ) 
-            for i in range(1, count + 1)
+            for i in range(1, count + 1)#count is 8 so the range is from 1 to (8+1) and you will get a value from 1 to 8
         ]
 
     def update(self):

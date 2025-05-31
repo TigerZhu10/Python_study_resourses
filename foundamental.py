@@ -37,7 +37,7 @@ print(names)
 names.pop()#清除Jack(默认最后位置)
 print(names)
 
-names.sort()
+names.sort()#首字母排序(如果是数字的话，就从小到大排序)
 print(names)
 
 print(len(names))
