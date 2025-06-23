@@ -101,7 +101,7 @@ class Player(pygame.sprite.Sprite):
         self.acceleration = vector(0, self.VERTICAL_ACCLERATION)
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_SPACE]:
+        if keys[pygame.K_UP]:
                 self.jump()
         if keys[pygame.K_LEFT]:
             self.acceleration.x = -self.HORIZONTAL_ACCELERATION
