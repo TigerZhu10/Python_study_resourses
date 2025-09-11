@@ -37,7 +37,7 @@ class Tile(pygame.sprite.Sprite):
         #Get the rect of the image and position within the grid
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
-
+        self.image = ()
 
 class Player(pygame.sprite.Sprite):
     """玩家类：可以移动、跳跃、播放动画，并与地面和水体碰撞"""
