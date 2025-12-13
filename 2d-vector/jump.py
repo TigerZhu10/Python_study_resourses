@@ -59,7 +59,7 @@ class Player(pygame.sprite.Sprite):
         self.JUMP_VELOCITY = -20  # 跳跃初速度，负值代表向上（越大跳越高）
 
     def update(self):
-        # self.acceleration = vector(0, self.GRAVITY)  # 添加重力向下
+        self.acceleration = vector(0, self.GRAVITY)  # 添加重力向下
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
